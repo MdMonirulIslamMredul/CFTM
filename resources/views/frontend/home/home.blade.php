@@ -6,16 +6,34 @@
 
 @section('content')
 <style>
-    /* CSS */
-.desc.big.white-color h1,
-.desc.big.white-color h2,
-.desc.big.white-color h3,
-.desc.big.white-color h4,
-.desc.big.white-color h5,
-.desc.big.white-color h6 {
-    color: #ffffff; /* Change this to your desired color */
-}
-
+    /* Performance & Smooth Scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+    .menu-sticky.sticky {
+        will-change: transform;
+        transform: translateZ(0);
+    }
+    .rs-slider img {
+        object-fit: cover;
+        width: 100%;
+    }
+    .image-grid img, .degree-wrap img {
+        object-fit: cover;
+        width: 100%;
+    }
+    /* Snappy scroll reveal animations */
+    .wow {
+        animation-duration: 600ms !important;
+    }
+    .desc.big.white-color h1,
+    .desc.big.white-color h2,
+    .desc.big.white-color h3,
+    .desc.big.white-color h4,
+    .desc.big.white-color h5,
+    .desc.big.white-color h6 {
+        color: #ffffff;
+    }
 </style>
  <!-- Slider Section Start -->
  <div class="container-fluid">
@@ -30,7 +48,7 @@
                 @foreach ($banners as $key =>$banner)
                 {{-- {{ dd($banner) }} --}}
                 <div class="carousel-item {{$key == 0?'active':''}}">
-                    <img src="{{ asset($banner->image1) }}" class="d-block w-100" alt="Slide 1" style="height: 500px">
+                    <img src="{{ asset($banner->image1) }}" class="d-block w-100" alt="Slide 1" style="height: 500px; object-fit: cover;">
                    
                 </div>
                 @endforeach
@@ -57,36 +75,36 @@
     <div class="row no-gutter">
         <div class="col-lg-3 col-md-6">
             <div class="service-item overly1">
-                <img src="{{ asset('/') }}frontend/assets/images/services/1.jpg" alt="">
+                <img src="{{ asset('/') }}frontend/assets/images/services/1.jpg" alt="" loading="lazy">
                 <div class="content-part">
-                    <img src="{{ asset('/') }}frontend/assets/images/services/icons/1.png" alt="">
+                    <img src="{{ asset('/') }}frontend/assets/images/services/icons/1.png" alt="" loading="lazy">
                     <h4 class="title"><a href="#">University Life</a></h4>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="service-item overly2">
-                <img src="{{ asset('/') }}frontend/assets/images/services/1.jpg" alt="">
+                <img src="{{ asset('/') }}frontend/assets/images/services/1.jpg" alt="" loading="lazy">
                 <div class="content-part">
-                    <img src="{{ asset('/') }}frontend/assets/images/services/icons/2.png" alt="">
+                    <img src="{{ asset('/') }}frontend/assets/images/services/icons/2.png" alt="" loading="lazy">
                     <h4 class="title"><a href="#">Graduation</a></h4>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="service-item overly3">
-                <img src="{{ asset('/') }}frontend/assets/images/services/1.jpg" alt="">
+                <img src="{{ asset('/') }}frontend/assets/images/services/1.jpg" alt="" loading="lazy">
                 <div class="content-part">
-                    <img src="{{ asset('/') }}frontend/assets/images/services/icons/3.png" alt="">
+                    <img src="{{ asset('/') }}frontend/assets/images/services/icons/3.png" alt="" loading="lazy">
                     <h4 class="title"><a href="{{ asset('/') }}frontend/#">Athletics</a></h4>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="service-item overly4">
-                <img src="{{ asset('/') }}frontend/assets/images/services/1.jpg" alt="">
+                <img src="{{ asset('/') }}frontend/assets/images/services/1.jpg" alt="" loading="lazy">
                 <div class="content-part">
-                    <img src="{{ asset('/') }}frontend/assets/images/services/icons/1.png" alt="">
+                    <img src="{{ asset('/') }}frontend/assets/images/services/icons/1.png" alt="" loading="lazy">
                     <h4 class="title"><a href="{{ asset('/') }}frontend/#">Social</a></h4>
                 </div>
             </div>
@@ -101,12 +119,12 @@
         <div class="row">
             <div class="col-lg-5 pr-65 md-pr-15 md-mb-50">
                 <div class="about-intro">
-                    <div class="sec-title mb-40 wow fadeInUp" data-wow-delay="300ms" data-wow-duration="2000ms">
+                    <div class="sec-title mb-40 wow fadeInUp" data-wow-delay="300ms" data-wow-duration="600ms">
                         <div class="sub-title primary">About {{$logo->site_name}}</div>
                         <h2 class="title mb-21 white-color">{{ $about->title }}</h2>
                         <div class="desc big white-color">{!! $about->details1 !!}</div>
                     </div>
-                    <div class="btn-part wow fadeInUp" data-wow-delay="400ms" data-wow-duration="2000ms">
+                    <div class="btn-part wow fadeInUp" data-wow-delay="400ms" data-wow-duration="600ms">
                         <a class="readon2" href="{{ route('about.page') }}">Read More</a>
                     </div>
                 </div>
@@ -136,7 +154,7 @@
                     @foreach ($galleries as $gallery)
                     <div class="col-md-6 sm-mb-30">
                         <div class="image-grid">
-                            <img src="{{ asset($gallery->image) }}" alt="" style="height: 300px">
+                            <img src="{{ asset($gallery->image) }}" alt="" style="height: 300px; width: 100%; object-fit: cover;" loading="lazy">
                         </div>
                     </div>
                     @endforeach
@@ -152,7 +170,7 @@
     <div class="container">
         <div class="row y-middle">
             <div class="col-lg-4 col-md-6 mb-30">
-                <div class="sec-title wow fadeInUp" data-wow-delay="300ms" data-wow-duration="2000ms">
+                <div class="sec-title wow fadeInUp" data-wow-delay="300ms" data-wow-duration="600ms">
                     <div class="sub-title primary">Degree categoris</div>
                     <h2 class="title mb-0">Successfully Complete A Degree at {{ $logo->site_name }}</h2>
                 </div>
@@ -160,7 +178,7 @@
             @foreach ($categories as $category)
             <div class="col-lg-4 col-md-6 mb-30">
                 <div class="degree-wrap">
-                    <img src="{{ asset($category->image) }}" alt="Image" style="height: 300px">
+                    <img src="{{ asset($category->image) }}" alt="Image" style="height: 300px; width: 100%; object-fit: cover;" loading="lazy">
                     <div class="title-part">
                         <h4 class="title">{{ $category->name }}</h4>
                     </div>
@@ -362,7 +380,7 @@
                 @foreach ($blogs as $blog)
                 <div class="blog-item">
                     <div class="image-part">
-                        <img src="{{ asset($blog->main_image) }}" alt="" class="w-100">
+                        <img src="{{ asset($blog->main_image) }}" alt="" class="w-100" loading="lazy">
                     </div>
                     <div class="blog-content new-style">
                         <ul class="blog-meta">

@@ -11,26 +11,51 @@
 **/
 (function($) {
 	"use strict";
-    // sticky menu
+    // sticky menu & scroll handlers (optimized with requestAnimationFrame)
     var header = $('.menu-sticky');
-    var win = $(window);
+    var totop = $('#scrollUp');
+    var isSticky = false;
+    var isToTopVisible = false;
+    var ticking = false;
 
-    win.on('scroll', function() {
-       var scroll = win.scrollTop();
-       if (scroll < 1) {
-           header.removeClass("sticky");
-       } else {
-           header.addClass("sticky");
-       }
+    function onScrollUpdate() {
+        var scroll = window.pageYOffset || document.documentElement.scrollTop;
 
-        $("section").each(function() {
-        var elementTop = $(this).offset().top - $('#rs-header').outerHeight();
-            if(scroll >= elementTop) {
-                $(this).addClass('loaded');
+        // Sticky menu: activate smoothly after scrolling past topbar (150px) to prevent 1px jitter
+        if (scroll > 150) {
+            if (!isSticky) {
+                header.addClass("sticky");
+                isSticky = true;
             }
-        });
+        } else {
+            if (isSticky) {
+                header.removeClass("sticky");
+                isSticky = false;
+            }
+        }
 
-    });
+        // Scroll to top button: show after 300px without queuing redundant animations
+        if (scroll > 300) {
+            if (!isToTopVisible) {
+                totop.stop(true, true).fadeIn(300);
+                isToTopVisible = true;
+            }
+        } else {
+            if (isToTopVisible) {
+                totop.stop(true, true).fadeOut(300);
+                isToTopVisible = false;
+            }
+        }
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            window.requestAnimationFrame(onScrollUpdate);
+            ticking = true;
+        }
+    }, { passive: true });
 	
     //window load
    $(window).on( 'load', function() {
@@ -280,15 +305,7 @@
         });
     }
     
-    // scrollTop init	
-    var totop = $('#scrollUp');    
-    win.on('scroll', function() {
-        if (win.scrollTop() > 150) {
-            totop.fadeIn();
-        } else {
-            totop.fadeOut();
-        }
-    });
+    // scrollTop click
     totop.on('click', function() {
         $("html,body").animate({
             scrollTop: 0
