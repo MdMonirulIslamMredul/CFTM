@@ -124,7 +124,7 @@
                                        </li>
 
                                        <li class="menu-item">
-                                           <a href="{{ route('result.page') }}">Result</a>
+                                           <a href="{{ route('result.archive') }}">Result</a>
                                        </li>
                                        <li class="menu-item-has-children">
                                         <a href="">About</a>

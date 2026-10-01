@@ -10,6 +10,7 @@ use App\Http\Controllers\CareerController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ResultController;
+use App\Http\Controllers\StudentResultController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\SessionController;
@@ -69,6 +70,8 @@ Route::get('/facility-des/{id}',[WebsiteController::class,'facility_details'])->
 
 
 Route::get('/result-page', [WebsiteController::class, 'result_page'])->name('result.page');
+Route::get('/result-archive', [WebsiteController::class, 'result_archive'])->name('result.archive');
+Route::post('/result-archive/verify', [WebsiteController::class, 'verify_result'])->name('result.verify');
 Route::post('/result_search', [WebsiteController::class,'search'])->name('result_search');
 
 Route::get('/blogs-page', [WebsiteController::class, 'blogs_page'])->name('blogs.page');
@@ -177,7 +180,10 @@ Route::resource('admission-require',AdmissionRequireController::class)->middlewa
 //Admission Require End
 //Result Start
 Route::resource('result',ResultController::class)->middleware('is_admin');
-
+// Student Results Verification Archive
+Route::get('student-results/download-sample-csv', [StudentResultController::class, 'downloadSampleCsv'])->name('student-results.download-sample-csv')->middleware('is_admin');
+Route::post('student-results/import-csv', [StudentResultController::class, 'importCsv'])->name('student-results.import-csv')->middleware('is_admin');
+Route::resource('student-results', StudentResultController::class)->middleware('is_admin');
 //Result End
 Route::resource('partner',PartnerController::class)->middleware('is_admin');
 

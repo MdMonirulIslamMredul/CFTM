@@ -10,6 +10,7 @@ use App\Models\About;
 use App\Models\Banner;
 use App\Models\Course;
 use App\Models\Result;
+use App\Models\StudentResult;
 use App\Models\Counter;
 use App\Models\Gallery;
 use App\Models\Package;
@@ -158,9 +159,45 @@ class WebsiteController extends Controller
     }
     public function result_page()
     {
-        $sessions = Session::get();
-        // Pass variables to the view
-        return view('frontend.result.result_search_page', compact('sessions'));
+        return view('frontend.result.result_archive');
+    }
+
+    public function result_archive()
+    {
+        return view('frontend.result.result_archive');
+    }
+
+    public function verify_result(Request $request)
+    {
+        $request->validate([
+            'identifier' => 'required|string',
+            'dob'        => 'required|date',
+        ]);
+
+        $identifier = trim($request->input('identifier'));
+        $dob        = $request->input('dob');
+
+        $result = StudentResult::where('status', 1)
+            ->where(function ($query) use ($identifier) {
+                $query->where('student_id', $identifier)
+                      ->orWhere('registration_no', $identifier);
+            })
+            ->whereDate('dob', $dob)
+            ->first();
+
+        if ($result) {
+            return view('frontend.result.result_archive', [
+                'result'             => $result,
+                'searchedIdentifier' => $identifier,
+                'searchedDob'        => $dob,
+            ]);
+        }
+
+        return view('frontend.result.result_archive', [
+            'notFound'           => true,
+            'searchedIdentifier' => $identifier,
+            'searchedDob'        => $dob,
+        ]);
     }
     
     public function search(Request $request)
@@ -175,7 +212,10 @@ class WebsiteController extends Controller
                     ->first();
 
             // Pass the result variable to the result_page method
-            return $this->result_page()->with(compact('result'));
+            return view('frontend.result.result_search_page', [
+                'sessions' => Session::get(),
+                'result'   => $result,
+            ]);
         }
 
 
