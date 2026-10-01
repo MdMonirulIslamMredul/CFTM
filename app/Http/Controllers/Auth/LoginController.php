@@ -1,0 +1,75 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
+class LoginController extends Controller
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+    */
+
+    use AuthenticatesUsers;
+
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = '/';
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
+    public function login(Request $request)
+    {
+        $input = $request->all();
+
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
+        {
+            if ($request->user()->is_admin == 1) {
+                Alert::toast('Admin Login successfully','success');
+                return redirect()->route('admin.home');
+
+            }else if($request->user()->is_admin == 2 ){
+                Alert::toast('Doctor Login successfully','success');
+                return redirect()->route('doctor.home');
+            }
+            else if($request->user()->is_admin == 0 ){
+                Alert::toast('Customer Login successfully','success');
+                return redirect('/');
+            }
+            else
+            {
+                return back()->route('font.page');
+            }
+        }else{
+            return redirect()->route('login')
+                ->with('error','Email-Address And Password Are Wrong.');
+        }
+
+    }
+}
