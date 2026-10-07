@@ -104,10 +104,110 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <!-- Affiliations Management Section -->
+    <div class="col-lg-12 mt-4">
+        <div class="card">
+            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0 text-white"><i class="ti-bookmark-alt"></i> About Page Affiliations & Recognitions</h4>
+                <div>
+                    <a href="{{ route('objectives.index') }}" class="btn btn-light btn-sm font-weight-bold mr-2">
+                        <i class="ti-target"></i> Objectives & Achievements
+                    </a>
+                    <a href="{{ route('affiliations.index') }}" class="btn btn-light btn-sm font-weight-bold">
+                        <i class="ti-plus"></i> Add New Affiliation
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped no-wrap">
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">Order</th>
+                                <th style="width: 100px;">Emblem</th>
+                                <th>Institution</th>
+                                <th>Banner Text</th>
+                                <th style="width: 80px;">Style</th>
+                                <th style="width: 80px;">Status</th>
+                                <th style="width: 150px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(isset($affiliations) && count($affiliations) > 0)
+                                @foreach ($affiliations as $affil)
+                                    <tr>
+                                        <td class="text-center font-weight-bold">{{ $affil->order_num }}</td>
+                                        <td class="text-center">
+                                            @if($affil->image && file_exists(public_path($affil->image)))
+                                                <img src="{{ asset($affil->image) }}" alt="Logo" style="max-height: 45px; max-width: 80px; object-fit: contain;">
+                                            @else
+                                                <span class="badge badge-secondary">No image</span>
+                                            @endif
+                                        </td>
+                                        <td><strong>{{ $affil->institution_name ?? '—' }}</strong></td>
+                                        <td>
+                                            <div style="{{ $affil->is_italic ? 'font-style: italic;' : '' }}; background: #f0f4f9; padding: 6px 10px; border-radius: 4px; border-left: 3px solid #2b70c9;">
+                                                {{ $affil->title }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @if($affil->is_italic)
+                                                <span class="label" style="display: inline-block; padding: 4px 10px; font-weight: 600; font-style: italic; background-color: #7b1fa2; color: #ffffff !important; border-radius: 4px;">Italic</span>
+                                            @else
+                                                <span class="label" style="display: inline-block; padding: 4px 10px; font-weight: 600; background-color: #e2e8f0; color: #1e293b !important; border: 1px solid #cbd5e1; border-radius: 4px;">Normal</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($affil->status == 1)
+                                                <span class="label" style="display: inline-block; padding: 4px 10px; font-weight: 600; background-color: #00c292; color: #ffffff !important; border-radius: 4px;">Active</span>
+                                            @else
+                                                <span class="label" style="display: inline-block; padding: 4px 10px; font-weight: 600; background-color: #e46a76; color: #ffffff !important; border-radius: 4px;">Inactive</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('affiliations.edit', $affil->id) }}" class="btn btn-primary btn-sm mr-1">
+                                                <i class="ti-pencil"></i> Edit
+                                            </a>
+                                            <form action="{{ route('affiliations.destroy', $affil->id) }}" class="d-inline" method="POST" onsubmit="return confirm('Are you sure you want to delete this affiliation?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="ti-trash"></i> Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-3">No affiliations configured yet.</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset('admin/assets/node_modules/tinymce/tinymce.min.js') }}"></script>
     <script type="text/javascript">
-        tinymce.init({
-            selector: 'textarea#default'
-        });
+        if (typeof tinymce !== 'undefined') {
+            tinymce.init({
+                selector: 'textarea.editor, textarea#tinymce',
+                height: 250,
+                menubar: false,
+                plugins: [
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                    'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'wordcount'
+                ],
+                toolbar: 'undo redo | blocks | bold italic underline | ' +
+                    'alignleft aligncenter alignright alignjustify | ' +
+                    'bullist numlist outdent indent | removeformat | table | code',
+                promotion: false,
+                branding: false
+            });
+        }
     </script>
 @endsection
