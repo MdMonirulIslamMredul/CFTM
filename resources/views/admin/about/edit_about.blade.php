@@ -72,10 +72,24 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="{{ asset('admin/assets/node_modules/tinymce/tinymce.min.js') }}"></script>
     <script type="text/javascript">
-        tinymce.init({
-            selector: 'textarea#default'
-        });
+        if (typeof tinymce !== 'undefined') {
+            tinymce.init({
+                selector: 'textarea.editor, textarea#tinymce',
+                height: 250,
+                menubar: false,
+                plugins: [
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                    'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'wordcount'
+                ],
+                toolbar: 'undo redo | blocks | bold italic underline | ' +
+                    'alignleft aligncenter alignright alignjustify | ' +
+                    'bullist numlist outdent indent | removeformat | table | code',
+                promotion: false,
+                branding: false
+            });
+        }
     </script>
 @endsection
