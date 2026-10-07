@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\About;
+use App\Models\Affiliation;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,11 +15,8 @@ class AboutController extends Controller
         return view('admin.about.about',[
             'abouts'=>About::get(),
             'about_data'=>DB::table('abouts')->latest()->first(),
-
-
-
+            'affiliations'=>Affiliation::orderBy('order_num', 'asc')->get(),
         ]);
-
     }
 
     public function store_about(Request $request)
