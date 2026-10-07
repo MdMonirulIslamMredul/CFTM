@@ -12,3 +12,9 @@ npm-debug.log
 yarn-error.log
 .idea/
 .vscode/
+/public/tinymce
+/public/admin/assets/node_modules
+/public/upload/affiliations
+/public/upload/objectives
+/public/upload/partner-images
+/public/upload/certificates
