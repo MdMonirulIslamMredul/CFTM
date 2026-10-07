@@ -14,10 +14,7 @@
     <!-- This page CSS -->
     <!-- chartist CSS -->
     @include('admin.include.style')
-    <script src="https://cdn.tiny.cloud/1/xp4eyn58se6am9fbdbbxgjh7cqbmfvr6jk7dtkc90050c2wb/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-
-
-
+    <script src="{{ asset('admin/assets/node_modules/tinymce/tinymce.min.js') }}"></script>
 </head>
 
 <body class="skin-blue fixed-layout">
@@ -86,10 +83,23 @@
 </body>
 
 <script>
-    tinymce.init({
-        selector: 'textarea#tinymce',
-        height: 500
-    });
+    if (typeof tinymce !== 'undefined') {
+        tinymce.init({
+            selector: 'textarea#tinymce, textarea.editor',
+            height: 350,
+            menubar: false,
+            plugins: [
+                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                'insertdatetime', 'media', 'table', 'wordcount'
+            ],
+            toolbar: 'undo redo | blocks | bold italic underline | ' +
+                'alignleft aligncenter alignright alignjustify | ' +
+                'bullist numlist outdent indent | removeformat | table | code',
+            promotion: false,
+            branding: false
+        });
+    }
 </script>
 <script>
     $(document).ready(function() {
