@@ -91,7 +91,7 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="{{ asset('admin/assets/node_modules/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
     <script type="text/javascript">
         tinymce.init({
             selector: 'textarea#default'
