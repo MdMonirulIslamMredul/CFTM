@@ -307,9 +307,9 @@
                     @auth
                         <a href="{{ route('home') }}" class="font-weight-bold text-dark"><i class="fa fa-user-circle mr-1"></i> Dashboard</a>
                     @else
-                        <a href="{{ route('login') }}"><i class="fa fa-sign-in mr-1"></i> Login</a>
+                        {{-- <a href="{{ route('login') }}"><i class="fa fa-sign-in mr-1"></i> Login</a>
                         <span class="mx-1 text-muted">/</span>
-                        <a href="{{ route('register') }}">Register</a>
+                        <a href="{{ route('register') }}">Register</a> --}}
                     @endauth
                     <a href="{{ route('admission.page') }}" class="kccms-topbar-btn">Apply Now</a>
                 </div>
@@ -352,7 +352,7 @@
                     <li class="kccms-dropdown-item"><a href="{{ route('objectives.page') }}" class="kccms-dropdown-link">Objectives & Achievements</a></li>
                     <li class="kccms-dropdown-item"><a href="{{ route('director.desk') }}" class="kccms-dropdown-link">Director's Desk</a></li>
                     <li class="kccms-dropdown-item"><a href="{{ route('our.board') }}" class="kccms-dropdown-link">Our Board</a></li>
-                    <li class="kccms-dropdown-item"><a href="{{ route('mission.page') }}" class="kccms-dropdown-link">Mission & Vision</a></li>
+                    {{-- <li class="kccms-dropdown-item"><a href="{{ route('mission.page') }}" class="kccms-dropdown-link">Mission & Vision</a></li> --}}
                 </ul>
             </li>
 
